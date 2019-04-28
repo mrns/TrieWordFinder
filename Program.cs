@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace quTest
+namespace QuTask
 {
     class Program
     {

@@ -1,90 +1,79 @@
 using System.Collections.Generic;
 
-namespace quTest
+namespace QuTask
 {
+    /// <summary>
+    /// A trie implementation to store strings and keep count of their occurrences
+    /// </summary>
     public class Trie
     {
-        private readonly Node _root;
+
+        private readonly TrieNode _rootNode;
 
         public Trie()
         {
-            _root = new Node('^', 0, null);
+            _rootNode = new TrieNode('^', 0);
         }
 
-        public Node Prefix(string s)
+        /// <summary>
+        /// Gets the best matching node for a given string.
+        /// </summary>
+        /// <param name="s">The string to look for</param>
+        /// <returns>The best matching node</returns>
+        public TrieNode GetPrefixNode(string s)
         {
-            var currentNode = _root;
+            var currentNode = _rootNode;
             var result = currentNode;
 
             foreach (var c in s)
             {
                 currentNode = currentNode.FindChildNode(c);
                 if (currentNode == null)
+                {
+                    // [DM] best matching prefix found
                     break;
+                }
                 result = currentNode;
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Check if given string exists in the trie 
+        /// </summary>
+        /// <param name="s">String to search for</param>
+        /// <returns>True if found</returns>
         public bool Search(string s)
         {
-            var prefix = Prefix(s);
-            return prefix.Depth == s.Length && prefix.FindChildNode('$') != null;
+            var prefix = GetPrefixNode(s);
+            return prefix.Level == s.Length && prefix.FindChildNode('$') != null;
         }
 
-        public Node SearchNode(string s)
+        /// <summary>
+        /// Insert a new string in the trie or update its leaf node's Count value if it already exists
+        /// </summary>
+        /// <param name="s">The string to upsert</param>
+        public void Upsert(string s)
         {
-            var prefix = Prefix(s);
-            if (prefix.Depth == s.Length)
-            {
-                Node endNode = prefix.FindChildNode('$');
-                return endNode;
-            }
-            return null;
-        }
-
-        public void InsertRange(List<string> items)
-        {
-            for (int i = 0; i < items.Count; i++)
-                Insert(items[i]);
-        }
-
-        public void Insert(string s)
-        {
-            var commonPrefix = Prefix(s);
+            var commonPrefix = GetPrefixNode(s);
             var current = commonPrefix;
 
-            if (commonPrefix.Depth == s.Length)
+            if (commonPrefix.Level == s.Length)
             {
-                Node endNode = commonPrefix.FindChildNode('$');
+                TrieNode endNode = commonPrefix.FindChildNode('$');
                 endNode.Count++;
                 return;
             }
 
-            for (var i = current.Depth; i < s.Length; i++)
+            for (var i = current.Level; i < s.Length; i++)
             {
-                var newNode = new Node(s[i], current.Depth + 1, current);
+                var newNode = new TrieNode(s[i], current.Level + 1);
                 current.Children.Add(newNode);
                 current = newNode;
             }
 
-            current.Children.Add(new Node('$', current.Depth + 1, current));
-        }
-
-        public void Delete(string s)
-        {
-            if (Search(s))
-            {
-                var node = Prefix(s).FindChildNode('$');
-
-                while (node.IsLeaf())
-                {
-                    var parent = node.Parent;
-                    parent.DeleteChildNode(node.Value);
-                    node = parent;
-                }
-            }
+            current.Children.Add(new TrieNode('$', current.Level + 1));
         }
 
     }
