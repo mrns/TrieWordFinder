@@ -16,7 +16,7 @@ namespace QuTask.Runner
             stopwatch.Start();
 
             List<string> wordstream = new List<string>();
-            wordstream.AddRange(WordTools._sampleWordStream);
+            wordstream.AddRange(WordTools.SampleWordStream);
 
             for (int i = 0; i < 1000000 - wordstream.Count; i++)
             {
@@ -28,6 +28,15 @@ namespace QuTask.Runner
             stopwatch.Stop();
             var elapsedTicks = stopwatch.ElapsedTicks;
             var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+            System.Console.WriteLine();
+            System.Console.WriteLine("----------------------------------------------------");
+            System.Console.WriteLine("SEEDED WORDS:");
+            System.Console.WriteLine("----------------------------------------------------");
+            System.Console.WriteLine();
+
+            foreach (string word in WordTools.SampleWordStream)
+                System.Console.WriteLine(word);
 
             System.Console.WriteLine();
             System.Console.WriteLine("----------------------------------------------------");

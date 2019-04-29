@@ -71,7 +71,7 @@ namespace QuTask
             {
                 ranking = (
                     from word in results
-                    where word.Value.Found
+                    where word.Value.Found == true
                     orderby word.Value.SearchCount descending
                     select word.Key).Take(10);
             }

@@ -7,7 +7,7 @@ namespace QuTask.Tools
     public static class WordTools
     {
         private static string CHARS = "abcdefghijklmnopqrstuvwxyz";
-        public static string[] _sampleWordStream = new string[15]{
+        public static string[] SampleWordStream = new string[15]{
             "one#",
             "two#",
             "two#",
@@ -28,12 +28,12 @@ namespace QuTask.Tools
         private static Randomizer _randomizer = new Randomizer();
         public static string GetRandomSampleWord()
         {
-            return GetSampleWord(_random.Next(0, _sampleWordStream.Count()));
+            return GetSampleWord(_random.Next(0, SampleWordStream.Count()));
         }
 
         public static string GetSampleWord(int index)
         {
-            return _sampleWordStream.ElementAt(index);
+            return SampleWordStream.ElementAt(index);
         }
 
         public static char GetRandomChar()

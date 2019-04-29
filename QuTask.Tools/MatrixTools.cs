@@ -35,7 +35,7 @@ namespace QuTask.Tools
             int wordColumn = 0;
             string word;
 
-            while (i < WordTools._sampleWordStream.Length && j < WordTools._sampleWordStream.Length)
+            while (i < WordTools.SampleWordStream.Length && j < WordTools.SampleWordStream.Length)
             {
                 word = WordTools.GetSampleWord(i);
                 wordRow = i;
