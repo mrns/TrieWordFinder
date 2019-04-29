@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using QuTask.Exceptions;
 
 namespace QuTask
 {
@@ -9,7 +10,7 @@ namespace QuTask
     /// </summary>
     public class WordFinder
     {
-        private const int MAX_MATRIX_SIZE = 64;
+        public const int MAX_MATRIX_SIZE = 64;
         private Trie _trie;
         private int _totalWords = 0;
         private int _totalChars = 0;
@@ -24,12 +25,17 @@ namespace QuTask
         {
             if (matrix.Count() > MAX_MATRIX_SIZE)
             {
-                throw new Exception($"Matrix must contain a maximum of {MAX_MATRIX_SIZE} rows");
+                throw new MatrixSizeExceededException($"Matrix must contain a maximum of {MAX_MATRIX_SIZE} rows");
             }
 
             if (matrix.Count() == 0)
             {
-                throw new Exception($"Matrix must contain at list one string");
+                throw new EmptyMatrixException($"Matrix must contain at list one string");
+            }
+
+            if (matrix.ElementAt(0) == null || matrix.ElementAt(0).Length == 0)
+            {
+                throw new NullOrEmptyFirstRowException($"First row must have a non null, non empty value");
             }
 
             _totalRows = matrix.Count();
@@ -154,6 +160,16 @@ namespace QuTask
 
             foreach (string row in matrix)
             {
+                if (row == null)
+                {
+                    throw new RowCannotBeNullException($"Row number ${i} is null");
+                }
+
+                if (row.Length != _totalColumns)
+                {
+                    throw new DifferentLengthRowsException($"All strings must be of same length, '{row}' is {row.Length} long and we were expecting {_totalColumns}");
+                }
+
                 foreach (char character in row)
                 {
                     rowWord += row[j];
