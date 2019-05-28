@@ -1,3 +1,7 @@
+# Goal
+
+Task goal details can be found in "Developer Exercise - WordFinder.pdf", located in the root of this repo.
+
 # QuTask.WordFinder
 
 This is the main class library project which contains the actual code used to solve the excercise. I decided to use a Trie
